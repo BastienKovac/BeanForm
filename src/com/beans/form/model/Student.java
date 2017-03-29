@@ -51,5 +51,11 @@ public class Student {
 	public void setRegistered(boolean registered) {
 		this.registered = registered;
 	}
+
+	@Override
+	public String toString() {
+		return "Student [firstName=" + firstName + ", lastName=" + lastName + ", studentNumber=" + studentNumber
+				+ ", age=" + age + ", registered=" + registered + "]";
+	}
 	
 }

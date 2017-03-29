@@ -95,9 +95,10 @@ public class BeanFormPanel extends JPanel {
 			System.err.println(e.getMessage());
 		}
 		JPanel pane = new BeanFormPanel(loadedExample);
-		JFrame frame = new JFrame("Test");
+		JFrame frame = new JFrame();
 		frame.setContentPane(pane);
 		frame.pack();
+		frame.setMinimumSize(frame.getPreferredSize());
 		frame.setLocationRelativeTo(null);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
