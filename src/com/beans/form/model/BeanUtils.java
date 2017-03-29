@@ -4,21 +4,25 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public class BeanReader {
+public class BeanUtils {
 	
-	private BeanReader() {
+	private BeanUtils() {
 		
 	}
 	
-	public static LoadedBeanModel readBean(Object o) throws IllegalArgumentException {
-		if (!isBean(o)) {
-			throw new IllegalArgumentException("The class " + o.getClass().getName() + " is not a Java Bean");
-		}
-		return null;
+	public static String formatFieldName(String fieldName) {
+		String formattedFieldName = capitalizeFirstLetter(fieldName);
+		return formattedFieldName.replaceAll("(\\p{Ll})(\\p{Lu})","$1 $2");
 	}
 	
-	private static boolean isBean(Object o) {
-		Class<?> clazz = o.getClass();
+	public static String capitalizeFirstLetter(String original) {
+	    if (original == null || original.length() == 0) {
+	        return original;
+	    }
+	    return original.substring(0, 1).toUpperCase() + original.substring(1);
+	}
+	
+	public static boolean isBean(Class<?> clazz) {
 		for (Field field : clazz.getDeclaredFields()) {
 			String fieldName = field.getName();
 			if (!hasGetter(clazz, fieldName) || !hasSetter(clazz, fieldName) || !hasDefaultConstructor(clazz)) {
@@ -54,13 +58,6 @@ public class BeanReader {
 			}
 		}
 		return false;
-	}
-	
-	private static String capitalizeFirstLetter(String original) {
-	    if (original == null || original.length() == 0) {
-	        return original;
-	    }
-	    return original.substring(0, 1).toUpperCase() + original.substring(1);
 	}
 
 }
