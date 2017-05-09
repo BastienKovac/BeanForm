@@ -19,10 +19,12 @@ public class ComponentFactory {
 		Class<?> clazz = bean.getFieldType(fieldName);
 		if (clazz.equals(Boolean.class) || clazz.equals(boolean.class)) {
 			return buildCheckBox(fieldName);
-		} else if (clazz.equals(String.class) || isNumber(clazz)) {
-			return buildTextField(fieldName);
+		} else if (isNumber(clazz)) {
+			return buildTextField((Class<? extends Number>) clazz, fieldName);
 		} else if (isEnum(clazz)) {
 			return buildComboBox((Class<? extends Enum>) clazz);
+		} else if (clazz.equals(String.class)) {
+			return buildTextField();
 		}
 		return null;
 	}
@@ -32,7 +34,11 @@ public class ComponentFactory {
 		return cb;
 	}
 
-	private static JTextField buildTextField(String fieldName) {
+	private static JTextField buildTextField(Class<? extends Number> fieldClass, String fieldName) {
+		return new NumberTextField(fieldClass);
+	}
+
+	private static JTextField buildTextField() {
 		JTextField tf = new JTextField();
 		tf.setColumns(9);
 		return tf;
@@ -47,7 +53,7 @@ public class ComponentFactory {
 	}
 
 	private static boolean isNumber(Class<?> clazz) {
-		return isDouble(clazz) || isInteger(clazz) || isLong(clazz) || isFloat(clazz) || isShort(clazz);
+		return isDouble(clazz) || isInteger(clazz) || isLong(clazz) || isFloat(clazz) || isShort(clazz) || isByte(clazz);
 	}
 
 	private static boolean isDouble(Class<?> clazz) {
@@ -68,6 +74,10 @@ public class ComponentFactory {
 
 	private static boolean isShort(Class<?> clazz) {
 		return clazz.equals(Short.class) || clazz.equals(short.class);
+	}
+
+	private static boolean isByte(Class<?> clazz) {
+		return clazz.equals(Byte.class) || clazz.equals(byte.class);
 	}
 
 }
