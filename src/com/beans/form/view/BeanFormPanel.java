@@ -1,24 +1,24 @@
 package com.beans.form.view;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
-import javax.swing.JCheckBox;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.GroupLayout.Group;
+import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-import com.beans.form.model.Student;
 import com.beans.form.model.BeanFormException;
 import com.beans.form.model.BeanUtils;
 import com.beans.form.model.LoadedBeanModel;
+import com.beans.form.model.Student;
 import com.beans.form.view.components.ComponentFactory;
 
 public class BeanFormPanel extends JPanel {
@@ -26,17 +26,17 @@ public class BeanFormPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 
 	private LoadedBeanModel beanModel;
-	
+
 	private Map<JLabel, JComponent> beanComponents;
-	
-	
+
+
 	public BeanFormPanel(LoadedBeanModel beanModel) {
 		super();
 		this.beanModel = beanModel;
-		this.beanComponents = new HashMap<>();
+		this.beanComponents = new LinkedHashMap<>();
 		buildPanel();
 	}
-	
+
 	private void buildPanel() {
 		Border in = BorderFactory.createEmptyBorder(3, 3, 3, 3);
 		Border out = BorderFactory.createTitledBorder(beanModel.getOriginalClass() + " Form");
@@ -44,22 +44,22 @@ public class BeanFormPanel extends JPanel {
 		buildComponents();
 		buildLayout();
 	}
-	
+
 	private void buildComponents() {
 		for (String fieldName : beanModel.getDeclaredFields()) {
 			JComponent component = ComponentFactory.getComponentFor(beanModel, fieldName);
 			if (component != null) {
 				beanComponents.put(new JLabel(BeanUtils.formatFieldName(fieldName)), component);
-			}			
+			}
 		}
 	}
-	
+
 	private void buildLayout() {
 		GroupLayout gLayout = new GroupLayout(this);
 		gLayout.setAutoCreateContainerGaps(true);
 		gLayout.setAutoCreateGaps(true);
 		Group horizontalGroup = gLayout.createSequentialGroup();
-		
+
 		Group firstColumn = gLayout.createParallelGroup(Alignment.TRAILING);
 		Group secondColumn = gLayout.createParallelGroup(Alignment.LEADING);
 		for (Entry<JLabel, JComponent> componentEntry : beanComponents.entrySet()) {
@@ -71,7 +71,7 @@ public class BeanFormPanel extends JPanel {
 		horizontalGroup.addGroup(firstColumn);
 		horizontalGroup.addGroup(secondColumn);
 		gLayout.setHorizontalGroup(horizontalGroup);
-		
+
 		Group verticalGroup = gLayout.createSequentialGroup();
 		for (Entry<JLabel, JComponent> componentEntry : beanComponents.entrySet()) {
 			Group rowGroup = gLayout.createParallelGroup(Alignment.BASELINE);
@@ -82,10 +82,10 @@ public class BeanFormPanel extends JPanel {
 			verticalGroup.addGroup(rowGroup);
 		}
 		gLayout.setVerticalGroup(verticalGroup);
-		
+
 		setLayout(gLayout);
 	}
-	
+
 	public static void main(String[] args) {
 		Student ex = new Student();
 		LoadedBeanModel loadedExample = new LoadedBeanModel();
@@ -103,5 +103,5 @@ public class BeanFormPanel extends JPanel {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
 	}
-	
+
 }

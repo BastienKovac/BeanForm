@@ -1,15 +1,16 @@
 package com.beans.form.model;
 
 public class Student {
-	
+
 	private String firstName;
 	private String lastName;
 	private Long studentNumber;
 	private int age;
+	private StudentCursus followedCursus;
 	private boolean registered;
-	
+
 	public Student() {
-		
+
 	}
 
 	public String getFirstName() {
@@ -44,6 +45,14 @@ public class Student {
 		this.age = age;
 	}
 
+	public StudentCursus getFollowedCursus() {
+		return followedCursus;
+	}
+
+	public void setFollowedCursus(StudentCursus followedCursus) {
+		this.followedCursus = followedCursus;
+	}
+
 	public boolean isRegistered() {
 		return registered;
 	}
@@ -52,10 +61,4 @@ public class Student {
 		this.registered = registered;
 	}
 
-	@Override
-	public String toString() {
-		return "Student [firstName=" + firstName + ", lastName=" + lastName + ", studentNumber=" + studentNumber
-				+ ", age=" + age + ", registered=" + registered + "]";
-	}
-	
 }
