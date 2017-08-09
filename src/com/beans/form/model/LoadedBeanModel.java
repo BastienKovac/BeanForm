@@ -99,7 +99,7 @@ public class LoadedBeanModel {
 	}
 
 	private void readFields(Class<?> clazz) {
-		for (Field field : clazz.getDeclaredFields()) {
+		for (Field field : BeanUtils.getBeanFields(clazz)) {
 			fields.put(field.getName(), field.getType());
 		}
 	}

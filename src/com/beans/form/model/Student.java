@@ -9,6 +9,7 @@ public class Student {
 	private StudentCursus followedCursus;
 	private boolean registered;
 
+
 	public Student() {
 
 	}

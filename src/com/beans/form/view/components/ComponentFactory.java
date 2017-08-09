@@ -18,33 +18,33 @@ public class ComponentFactory {
 	public static JComponent getComponentFor(LoadedBeanModel bean, String fieldName) {
 		Class<?> clazz = bean.getFieldType(fieldName);
 		if (clazz.equals(Boolean.class) || clazz.equals(boolean.class)) {
-			return buildCheckBox(fieldName);
+			return buildCheckBox(fieldName, bean);
 		} else if (isNumber(clazz)) {
-			return buildTextField((Class<? extends Number>) clazz, fieldName);
+			return buildTextField((Class<? extends Number>) clazz, fieldName, bean);
 		} else if (isEnum(clazz)) {
-			return buildComboBox((Class<? extends Enum>) clazz);
+			return buildComboBox((Class<? extends Enum>) clazz, bean);
 		} else if (clazz.equals(String.class)) {
-			return buildTextField();
+			return buildTextField(fieldName, bean);
 		}
 		return null;
 	}
 
-	private static JCheckBox buildCheckBox(String fieldName) {
+	private static JCheckBox buildCheckBox(String fieldName, LoadedBeanModel bean) {
 		JCheckBox cb = new JCheckBox(BeanUtils.formatFieldName(fieldName));
 		return cb;
 	}
 
-	private static JTextField buildTextField(Class<? extends Number> fieldClass, String fieldName) {
+	private static JTextField buildTextField(Class<? extends Number> fieldClass, String fieldName, LoadedBeanModel bean) {
 		return new NumberTextField(fieldClass);
 	}
 
-	private static JTextField buildTextField() {
+	private static JTextField buildTextField(String fieldName, LoadedBeanModel bean) {
 		JTextField tf = new JTextField();
 		tf.setColumns(9);
 		return tf;
 	}
 
-	private static <E extends Enum<E>> JComboBox<E> buildComboBox(Class<E> type) {
+	private static <E extends Enum<E>> JComboBox<E> buildComboBox(Class<E> type, LoadedBeanModel bean) {
 		return new JComboBox<>(type.getEnumConstants());
 	}
 
